@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="no" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiv Utforskning: Samarbeidende Super E-Demokrati</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A thematic single-page application with a sticky navigation bar for smooth scrolling. The structure is designed for exploration rather than linear reading, moving from the 'Why' (necessity), to the 'What' (definition), 'How' (transition path), and 'Key Success Factors' (engagement, funding). This non-linear, thematic structure makes the complex information more digestible and allows users to jump to sections of interest, which is more user-friendly than a long, scrolling report. -->
+    <!-- Visualization & Content Choices: The report's tables and comparative analyses are transformed into interactive elements. Table 1 becomes a clickable tab system for comparing democratic models. Table 2 becomes an interactive process flow diagram. Table 3 is visualized with an interactive donut chart linked to content cards. A radar chart visualizes the democratic challenges. This approach uses Chart.js (Canvas) and HTML/CSS diagrams to make abstract concepts and processes tangible and explorable, fulfilling the goal of interactive understanding without using SVG or Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #383838;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #A37E63;
+            border-bottom-color: #A37E63;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 py-3">
+            <ul class="flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-medium text-gray-600">
+                <li><a href="#intro" class="nav-link px-2 py-2">Introduksjon</a></li>
+                <li><a href="#why-now" class="nav-link px-2 py-2">Hvorfor Nå?</a></li>
+                <li><a href="#what-is-it" class="nav-link px-2 py-2">Hva er det?</a></li>
+                <li><a href="#path-forward" class="nav-link px-2 py-2">Veien Videre</a></li>
+                <li><a href="#engagement" class="nav-link px-2 py-2">Engasjement</a></li>
+                <li><a href="#funding" class="nav-link px-2 py-2">Finansiering</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="intro" class="min-h-screen flex items-center bg-[#F8F5F2]">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-[#A37E63] leading-tight mb-4">Samarbeidende Super E-Demokrati</h1>
+                <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+                    En interaktiv utforskning av en fremtidsrettet modell for demokratisk deltakelse. Dette er en visjon der teknologi og kollektiv innsats forenes for å skape et mer inkluderende, responsivt og legitimt styresett. Utforsk konseptet nedenfor.
+                </p>
+            </div>
+        </section>
+
+        <section id="why-now" class="py-20 md:py-28">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Hvorfor trenger vi en ny modell?</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Moderne demokratier står overfor flere alvorlige utfordringer. Et Samarbeidende Super E-Demokrati er designet for å møte disse direkte ved å bygge tillit, fremme konstruktiv dialog og styrke borgerens rolle.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Demokratiske Utfordringer</h3>
+                        <p class="text-gray-600 mb-6">Diagrammet til høyre visualiserer noen av de mest presserende utfordringene. Høyere score indikerer større alvorlighetsgrad. Et super e-demokrati adresserer disse ved å øke transparens, deltakelse og kollektiv problemløsning.</p>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-red-400 mr-3"></span>Erosjon av tillit & legitimitet</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-400 mr-3"></span>Politisk polarisering</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-green-400 mr-3"></span>Borgerlig fremmedgjøring</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-yellow-400 mr-3"></span>Ulikhet i politisk innflytelse</li>
+                            <li class="flex items-center"><span class="w-3 h-3 rounded-full bg-purple-400 mr-3"></span>Spredning av desinformasjon</li>
+                        </ul>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="challengesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="what-is-it" class="py-20 md:py-28 bg-[#F8F5F2]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Hva er Samarbeidende Super E-Demokrati?</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Det er en avansert modell som bygger på og integrerer flere etablerte konsepter. Tenk på det som et økosystem for politikkutforming der borgere, eksperter og myndigheter er likeverdige partnere.</p>
+                </div>
+
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">Sammenlign Demokratiske Modeller</h3>
+                    <div id="models-controls" class="flex flex-wrap justify-center gap-2 mb-8"></div>
+                    <div id="models-display" class="bg-white p-6 rounded-lg shadow-md min-h-[200px] fade-in"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="path-forward" class="py-20 md:py-28">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Veien Videre: En Overgangsmodell</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Overgangen er en kompleks prosess som krever endringer på flere nivåer. Nedenfor ser du en visualisering av de fire sentrale fasene. Klikk på hver fase for å utforske nøkkelhandlinger og utfordringer.</p>
+                </div>
+                
+                <div id="path-container" class="relative">
+                    <div class="absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                    <div class="relative flex justify-between items-start">
+                    </div>
+                </div>
+
+                <div id="path-details" class="mt-12 bg-gray-50 p-6 rounded-lg shadow-inner min-h-[150px] fade-in">
+                    <p class="text-center text-gray-500">Klikk på en fase over for å se detaljer.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="engagement" class="py-20 md:py-28 bg-[#F8F5F2]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Engasjementets Kraft</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Et velfungerende system er avhengig av aktiv borgerdeltakelse og en kultur for samarbeid. I Norge gir "dugnadsånden" et unikt kulturelt fundament for dette, men det krever også robuste etiske rammeverk.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🇳🇴 Digital Dugnadsånd</h3>
+                        <p class="text-gray-600">"Dugnad" er den norske tradisjonen for frivillig, kollektiv innsats. I en digital kontekst handler det om å kanalisere denne samarbeidsviljen til å samskape politikk og løsninger på nett. Plattformer må designes for å fremme fellesskapsfølelse og delt eierskap, og overføre tilliten og den sosiale kapitalen fra den fysiske til den digitale verden.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🛡️ Etiske Imperativer</h3>
+                        <p class="text-gray-600">Avansert teknologi medfører et stort ansvar. Et super e-demokrati må proaktivt:</p>
+                        <ul class="mt-4 space-y-2 text-gray-600">
+                           <li>- Bekjempe misinformasjon og manipulasjon.</li>
+                           <li>- Forhindre og rette opp algoritmisk skjevhet.</li>
+                           <li>- Sikre robust personvern og etisk KI-styring.</li>
+                           <li>- Fremme digitalt medborgerskap og kompetanse.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="funding" class="py-20 md:py-28">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Finansiering av Fremtiden</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Realisering krever vedvarende investeringer. En diversifisert strategi er nødvendig for å finansiere alt fra grunnforskning til storskala implementering. Klikk på segmentene i diagrammet for å utforske ulike finansieringsmodeller.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                     <div class="chart-container">
+                        <canvas id="fundingChart"></canvas>
+                    </div>
+                    <div id="funding-details" class="space-y-4">
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#383838] text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm text-gray-400">Interaktiv applikasjon basert på rapporten "Samarbeidende Super E-Demokrati".</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = {
+                democraticModels: {
+                    'Tradisjonelt Representativt Demokrati': {
+                        prinsipper: 'Representasjon, ansvarlighet, periodiske valg.',
+                        rolle: 'Velger.',
+                        fordeler: 'Stabilitet, effektivitet (i teorien), ekspertise hos representanter.',
+                        utfordringer: 'Borgerapati, elitedominans, lav responsivitet, polarisering.'
+                    },
+                    'E-demokrati': {
+                        prinsipper: 'Transparens, tilgjengelighet, økt deltakelse via IKT.',
+                        rolle: 'Informasjonsmottaker, sporadisk bidragsyter.',
+                        fordeler: 'Økt tilgjengelighet til informasjon, potensial for bredere deltakelse.',
+                        utfordringer: 'Digital kløft, cybersikkerhet, personvern, informasjons-overbelastning.'
+                    },
+                    'Samarbeidende E-demokrati': {
+                        prinsipper: 'Hybrid (direkte/representativt), samarbeid, kollektiv intelligens.',
+                        rolle: 'Medutvikler, med-evaluator, direkte stemmeberettiget (på saker).',
+                        fordeler: 'Bedre beslutningskvalitet, økt legitimitet, lærende system.',
+                        utfordringer: 'Skalerbarhet, kompleksitet, sikring av reell innflytelse.'
+                    },
+                    'Deltakende Demokrati': {
+                        prinsipper: 'Aktiv samfunnsinvolvering, direkte påvirkning, mangfold av stemmer.',
+                        rolle: 'Aktiv deltaker, med-beslutningstaker (i varierende grad).',
+                        fordeler: 'Økt engasjement, bedre politikk-relevans, økt transparens.',
+                        utfordringer: 'Representativitet, ressurskrevende, integrering med formelle systemer.'
+                    },
+                    'Samarbeidende Styring (Digitalt)': {
+                        prinsipper: 'Multi-stakeholder partnerskap, konsensus-orientering, delt problemløsning.',
+                        rolle: 'Partner, med-produsent av offentlige goder/tjenester.',
+                        fordeler: 'Mer robuste løsninger på komplekse problemer, økt eierskap.',
+                        utfordringer: 'Maktubalanser, transaksjonskostnader, treghet i prosesser.'
+                    },
+                    'Samarbeidende Super E-Demokrati': {
+                        prinsipper: 'Radikal inkludering, dypt og kontinuerlig samarbeid, KI-forsterket deliberasjon, likvid deltakelse, systemisk læring.',
+                        rolle: 'Med-skaper, medeier av prosesser og resultater, kontinuerlig bidragsyter.',
+                        fordeler: 'Transformativ politikk-kvalitet, høy legitimitet, systemisk innovasjon.',
+                        utfordringer: 'Ekstrem kompleksitet, etiske dilemmaer (KI, data), betydelige ressursbehov.'
+                    }
+                },
+                pathForward: [
+                    {
+                        title: 'Juridisk & Politisk Reform',
+                        icon: '🏛️',
+                        details: 'Utvikle lovgivning for dyp digital deltakelse, etablere juridisk status for samskapte beslutninger, og sikre personvern. Krever bred politisk konsensus og samsvar med grunnloven.'
+                    },
+                    {
+                        title: 'Institusjonell Kapasitetsbygging',
+                        icon: '🏢',
+                        details: 'Rekonfigurere offentlig forvaltning for samarbeid, utvikle nye roller (f.eks. digitale tilretteleggere), og gjennomføre omfattende opplæring. Krever sterkt lederskap og endringsvilje.'
+                    },
+                    {
+                        title: 'Teknologisk Infrastruktur',
+                        icon: '💻',
+                        details: 'Bygge sikre, skalerbare og inkluderende e-deltakelsesplattformer, implementere robust digital ID og utvikle etisk KI-styring. Krever høy sikkerhet og store investeringer.'
+                    },
+                    {
+                        title: 'Kulturell Tilpasning & Inkludering',
+                        icon: '🌍',
+                        details: 'Fremme en digital "dugnadsånd", bygge bro over den digitale kløften med opplæring, og sikre at alle grupper kan delta. Krever målrettede tiltak og universell utforming.'
+                    },
+                ],
+                fundingData: {
+                    'FoU': [
+                        { title: 'Nasjonale Offentlige Tilskudd (NFR-type)', desc: 'Direkte støtte til forskning via konkurransebaserte utlysninger. Muliggjør grunnforskning, men kan ha lange prosesser.' },
+                        { title: 'Internasjonale Samarbeidstilskudd (EU-type)', desc: 'Midler fra f.eks. Horisont Europa. Gir tilgang til større ressurspooler, men er svært konkurranseutsatt.' }
+                    ],
+                    'Pilotering': [
+                        { title: 'Målrettede Innovasjonsfond (Stimulab-type)', desc: 'Offentlige midler øremerket for eksperimentering, som fremmer risikotaking og praktiske løsninger.' },
+                        { title: 'Offentlig-Privat Partnerskap (OPP)', desc: 'Samarbeidsavtaler som mobiliserer privat kapital og ekspertise, men krever komplekse kontrakter.' },
+                        { title: 'Filantropi / Sivilsamfunns-tilskudd', desc: 'Fleksibel finansiering fra stiftelser for grasrotinitiativer, men ofte kortsiktig og uforutsigbar.' }
+                    ],
+                    'Oppskalering': [
+                        { title: 'Offentlig-Privat Partnerskap (OPP)', desc: 'Samarbeidsavtaler som mobiliserer privat kapital og ekspertise, men krever komplekse kontrakter.' },
+                        { title: 'Deltakende Budsjettering', desc: 'Lar borgere bestemme bruk av midler. Øker eierskap, men kan være tidkrevende.' },
+                        { title: 'Folkefinansiering (Crowdfunding)', desc: 'Innsamling fra mange små bidragsytere. Demokratiserer finansiering, men er usikkert for store systemer.' }
+                    ]
+                }
+            };
+            
+            const challengesCtx = document.getElementById('challengesChart').getContext('2d');
+            new Chart(challengesCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Tillitskrise', 'Polarisering', 'Fremmedgjøring', 'Ulikhet', 'Desinformasjon'],
+                    datasets: [{
+                        label: 'Demokratiske Utfordringer',
+                        data: [8, 9, 7, 8, 9],
+                        backgroundColor: 'rgba(163, 126, 99, 0.2)',
+                        borderColor: 'rgba(163, 126, 99, 1)',
+                        pointBackgroundColor: 'rgba(163, 126, 99, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(163, 126, 99, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { font: { size: 12 }, color: '#383838' },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: '#6b7280',
+                                stepSize: 2
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            const modelsControls = document.getElementById('models-controls');
+            const modelsDisplay = document.getElementById('models-display');
+            Object.keys(data.democraticModels).forEach((modelName, index) => {
+                const button = document.createElement('button');
+                button.textContent = modelName;
+                button.className = 'px-3 py-2 text-sm rounded-md transition-colors duration-200';
+                if (index === 0) {
+                    button.classList.add('bg-[#A37E63]', 'text-white');
+                } else {
+                    button.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                }
+                button.onclick = () => {
+                    displayModel(modelName);
+                    document.querySelectorAll('#models-controls button').forEach(btn => {
+                        btn.classList.remove('bg-[#A37E63]', 'text-white');
+                        btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                    });
+                    button.classList.add('bg-[#A37E63]', 'text-white');
+                    button.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                };
+                modelsControls.appendChild(button);
+            });
+
+            function displayModel(modelName) {
+                const model = data.democraticModels[modelName];
+                modelsDisplay.innerHTML = `
+                    <div class="fade-in">
+                        <h4 class="text-xl font-bold text-[#A37E63] mb-3">${modelName}</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-left">
+                            <div><strong class="font-semibold text-gray-800">Prinsipper:</strong><p class="text-gray-600">${model.prinsipper}</p></div>
+                            <div><strong class="font-semibold text-gray-800">Borgerens rolle:</strong><p class="text-gray-600">${model.rolle}</p></div>
+                            <div><strong class="font-semibold text-gray-800">Fordeler:</strong><p class="text-gray-600">${model.fordeler}</p></div>
+                            <div><strong class="font-semibold text-gray-800">Utfordringer:</strong><p class="text-gray-600">${model.utfordringer}</p></div>
+                        </div>
+                    </div>
+                `;
+            }
+            displayModel(Object.keys(data.democraticModels)[0]);
+            
+            const pathContainer = document.querySelector('#path-container .flex');
+            const pathDetails = document.getElementById('path-details');
+            data.pathForward.forEach((step, index) => {
+                const stepElement = document.createElement('div');
+                stepElement.className = 'relative flex flex-col items-center cursor-pointer group p-2';
+                stepElement.innerHTML = `
+                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full text-xl md:text-2xl transition-all duration-300 group-hover:border-[#A37E63] group-hover:scale-110">
+                        ${step.icon}
+                    </div>
+                    <p class="mt-2 text-xs md:text-sm font-semibold text-center text-gray-600 transition-colors duration-300 group-hover:text-[#A37E63]">${step.title}</p>
+                `;
+                stepElement.onclick = () => {
+                    pathDetails.innerHTML = `<div class="fade-in text-center"><h4 class="text-lg font-bold text-gray-800 mb-2">${step.title}</h4><p class="text-gray-600">${step.details}</p></div>`;
+                };
+                pathContainer.appendChild(stepElement);
+            });
+
+            const fundingCtx = document.getElementById('fundingChart').getContext('2d');
+            const fundingDetailsContainer = document.getElementById('funding-details');
+            const fundingChart = new Chart(fundingCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['FoU', 'Pilotering', 'Oppskalering'],
+                    datasets: [{
+                        data: [20, 40, 40],
+                        backgroundColor: ['#D6C2B6', '#A37E63', '#685145'],
+                        hoverBackgroundColor: ['#C4B0A4', '#8F6C53', '#524037'],
+                        borderColor: '#FDFBF8',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            function displayFundingDetails(phase) {
+                fundingDetailsContainer.innerHTML = '';
+                const items = data.fundingData[phase] || [];
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-lg shadow-sm border border-gray-200 fade-in';
+                    card.innerHTML = `
+                        <h4 class="font-bold text-gray-800">${item.title}</h4>
+                        <p class="text-sm text-gray-600">${item.desc}</p>
+                    `;
+                    fundingDetailsContainer.appendChild(card);
+                });
+                 if(items.length === 0) {
+                    fundingDetailsContainer.innerHTML = '<p class="text-center text-gray-500">Velg et segment i diagrammet.</p>';
+                }
+            }
+            
+            fundingCtx.canvas.onclick = (evt) => {
+                const activePoints = fundingChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                if (activePoints.length) {
+                    const firstPoint = activePoints[0];
+                    const label = fundingChart.data.labels[firstPoint.index];
+                    displayFundingDetails(label);
+                }
+            };
+            displayFundingDetails('FoU');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
