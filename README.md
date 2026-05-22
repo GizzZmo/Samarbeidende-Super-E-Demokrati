@@ -22,7 +22,7 @@ Samarbeidende Super E-Demokrati er et prosjekt med to tydelige deler:
 For best kompatibilitet kan du starte en enkel lokal server:
 
 ```bash
-cd /home/runner/work/Samarbeidende-Super-E-Demokrati/Samarbeidende-Super-E-Demokrati
+cd Samarbeidende-Super-E-Demokrati
 python3 -m http.server 8000
 ```
 

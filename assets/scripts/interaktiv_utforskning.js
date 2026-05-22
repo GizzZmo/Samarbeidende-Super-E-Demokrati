@@ -141,7 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function setActiveModelButton(activeLabel) {
         document.querySelectorAll('#models-controls button').forEach((btn) => {
             const active = btn.dataset.model === activeLabel;
-            btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+            btn.setAttribute('aria-selected', active ? 'true' : 'false');
+            btn.tabIndex = active ? 0 : -1;
             btn.classList.toggle('bg-[#A37E63]', active);
             btn.classList.toggle('text-white', active);
             btn.classList.toggle('bg-white', !active);
@@ -153,14 +154,32 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.keys(data.democraticModels).forEach((modelName, index) => {
         const button = document.createElement('button');
         button.type = 'button';
+        button.id = `model-tab-${index}`;
+        button.setAttribute('role', 'tab');
+        button.setAttribute('aria-controls', 'models-display');
         button.dataset.model = modelName;
         button.textContent = modelName;
         button.className = 'px-3 py-2 text-sm rounded-md transition-colors duration-200';
-        button.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
+        button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        button.tabIndex = index === 0 ? 0 : -1;
         button.onclick = () => {
             displayModel(modelName);
             setActiveModelButton(modelName);
         };
+        button.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+                return;
+            }
+            event.preventDefault();
+            const tabs = Array.from(document.querySelectorAll('#models-controls button'));
+            const currentIndex = tabs.indexOf(button);
+            const nextIndex = event.key === 'ArrowRight'
+                ? (currentIndex + 1) % tabs.length
+                : (currentIndex - 1 + tabs.length) % tabs.length;
+            const nextButton = tabs[nextIndex];
+            nextButton.focus();
+            nextButton.click();
+        });
         modelsControls.appendChild(button);
     });
     const firstModel = Object.keys(data.democraticModels)[0];
