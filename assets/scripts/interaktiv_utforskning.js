@@ -201,6 +201,18 @@ document.addEventListener('DOMContentLoaded', () => {
         stepElement.onclick = () => {
             pathDetails.innerHTML = `<div class="fade-in text-center"><h4 class="text-lg font-bold text-gray-800 mb-2">${step.title}</h4><p class="text-gray-600">${step.details}</p></div>`;
         };
+        stepElement.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+                return;
+            }
+            event.preventDefault();
+            const steps = Array.from(pathContainer.querySelectorAll('button'));
+            const currentIndex = steps.indexOf(stepElement);
+            const nextIndex = event.key === 'ArrowRight'
+                ? (currentIndex + 1) % steps.length
+                : (currentIndex - 1 + steps.length) % steps.length;
+            steps[nextIndex].focus();
+        });
         pathContainer.appendChild(stepElement);
     });
 
