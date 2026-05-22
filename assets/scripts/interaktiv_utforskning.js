@@ -304,7 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 navLinks.forEach((link) => {
                     const active = link.getAttribute('href') === `#${currentId}`;
                     link.classList.toggle('active', active);
-                    link.setAttribute('aria-current', active ? 'page' : 'false');
+                    if (active) {
+                        link.setAttribute('aria-current', 'page');
+                    } else {
+                        link.removeAttribute('aria-current');
+                    }
                 });
             }
         });
