@@ -80,47 +80,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const challengesCanvas = document.getElementById('challengesChart');
     const fundingCanvas = document.getElementById('fundingChart');
-    if (!challengesCanvas || !fundingCanvas || typeof Chart === 'undefined') {
-        return;
-    }
-
-    const challengesCtx = challengesCanvas.getContext('2d');
-    new Chart(challengesCtx, {
-        type: 'radar',
-        data: {
-            labels: ['Tillitskrise', 'Polarisering', 'Fremmedgjøring', 'Ulikhet', 'Desinformasjon'],
-            datasets: [{
-                label: 'Demokratiske Utfordringer',
-                data: [8, 9, 7, 8, 9],
-                backgroundColor: 'rgba(163, 126, 99, 0.2)',
-                borderColor: 'rgba(163, 126, 99, 1)',
-                pointBackgroundColor: 'rgba(163, 126, 99, 1)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(163, 126, 99, 1)'
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            scales: {
-                r: {
-                    angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                    grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                    pointLabels: { font: { size: 12 }, color: '#383838' },
-                    ticks: {
-                        backdropColor: 'transparent',
-                        color: '#6b7280',
-                        stepSize: 2
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 10
-                }
+    if (challengesCanvas && typeof Chart !== 'undefined') {
+        const challengesCtx = challengesCanvas.getContext('2d');
+        new Chart(challengesCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Tillitskrise', 'Polarisering', 'Fremmedgjøring', 'Ulikhet', 'Desinformasjon'],
+                datasets: [{
+                    label: 'Demokratiske Utfordringer',
+                    data: [8, 9, 7, 8, 9],
+                    backgroundColor: 'rgba(163, 126, 99, 0.2)',
+                    borderColor: 'rgba(163, 126, 99, 1)',
+                    pointBackgroundColor: 'rgba(163, 126, 99, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(163, 126, 99, 1)'
+                }]
             },
-            plugins: {
-                legend: { display: false }
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        pointLabels: { font: { size: 12 }, color: '#383838' },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: '#6b7280',
+                            stepSize: 2
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
             }
-        }
-    });
+        });
+    }
 
     const modelsControls = document.getElementById('models-controls');
     const modelsDisplay = document.getElementById('models-display');
@@ -230,51 +228,54 @@ document.addEventListener('DOMContentLoaded', () => {
         fundingPhaseControls.appendChild(phaseButton);
     });
 
-    const fundingCtx = fundingCanvas.getContext('2d');
-    const fundingChart = new Chart(fundingCtx, {
-        type: 'doughnut',
-        data: {
-            labels: fundingPhases,
-            datasets: [{
-                data: [20, 40, 40],
-                backgroundColor: ['#D6C2B6', '#A37E63', '#685145'],
-                hoverBackgroundColor: ['#C4B0A4', '#8F6C53', '#524037'],
-                borderColor: '#FDFBF8',
-                borderWidth: 4,
-                hoverOffset: 8
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            cutout: '70%',
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 20,
-                        font: { size: 14 }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.label;
+    let fundingChart = null;
+    if (fundingCanvas && typeof Chart !== 'undefined') {
+        const fundingCtx = fundingCanvas.getContext('2d');
+        fundingChart = new Chart(fundingCtx, {
+            type: 'doughnut',
+            data: {
+                labels: fundingPhases,
+                datasets: [{
+                    data: [20, 40, 40],
+                    backgroundColor: ['#D6C2B6', '#A37E63', '#685145'],
+                    hoverBackgroundColor: ['#C4B0A4', '#8F6C53', '#524037'],
+                    borderColor: '#FDFBF8',
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.label;
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
 
-    fundingCanvas.onclick = (evt) => {
-        const activePoints = fundingChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
-        if (activePoints.length) {
-            const firstPoint = activePoints[0];
-            const label = fundingChart.data.labels[firstPoint.index];
-            displayFundingDetails(label);
-        }
-    };
+        fundingCanvas.onclick = (evt) => {
+            const activePoints = fundingChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+            if (activePoints.length) {
+                const firstPoint = activePoints[0];
+                const label = fundingChart.data.labels[firstPoint.index];
+                displayFundingDetails(label);
+            }
+        };
+    }
     displayFundingDetails('FoU');
 
     const navLinks = document.querySelectorAll('.nav-link');
