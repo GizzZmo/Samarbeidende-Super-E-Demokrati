@@ -1,6 +1,45 @@
 # Samarbeidende-Super-E-Demokrati
-Samarbeidende Super E-Demokrati - En interaktiv webside.
-Samarbeidende Super E-Demokrati: En Vitenskapelig Analyse av Fremtidens Deltakende Styresett
+
+Samarbeidende Super E-Demokrati er et prosjekt med to tydelige deler:
+
+1. **Interaktiv app** for visuell utforskning av hovedideen: `interaktiv_utforskning.html`
+2. **Faglig rapport** med full analyse (resten av denne README-filen)
+
+## Prosjektoversikt
+
+- **Mål:** gjøre et komplekst demokratikonsept lettere å utforske og diskutere.
+- **Format:** statisk HTML/CSS/JS uten byggsteg.
+- **Målgruppe:** studenter, fagpersoner, beslutningstakere og andre som vil utforske fremtidige demokratiske modeller.
+
+## Kom i gang
+
+### 1) Åpne appen direkte
+
+Åpne filen `interaktiv_utforskning.html` i nettleseren.
+
+### 2) (Valgfritt) Kjør lokal server
+
+For best kompatibilitet kan du starte en enkel lokal server:
+
+```bash
+cd Samarbeidende-Super-E-Demokrati
+python3 -m http.server 8000
+```
+
+Deretter åpner du `http://localhost:8000/interaktiv_utforskning.html`.
+
+## Eksempelbruk
+
+1. Start på **Introduksjon** og bruk knappen **Start utforskning**.
+2. Gå til **Innhold** for å hoppe direkte til ønsket seksjon.
+3. Sammenlign modeller under **Hva er det?** ved å bytte mellom alternativene.
+4. Utforsk **Veien Videre** ved å klikke på overgangsfasene.
+5. Under **Finansiering** kan du bruke både diagram og faseknapper for å vise detaljer.
+6. Les deretter fulltekst i **faglig rapport** nedenfor for detaljert kontekst.
+
+## Faglig rapport
+
+Samarbeidende Super E-Demokrati: En Vitenskapelig Analyse av Fremtidens Deltakende Styresett  
 av Jon Constantine
 
 I. Introduksjon: Visjonen om et Samarbeidende Super E-Demokrati
