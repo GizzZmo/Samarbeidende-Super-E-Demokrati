@@ -61,16 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ],
         fundingData: {
-            FoU: [
+            'FoU': [
                 { title: 'Nasjonale Offentlige Tilskudd (NFR-type)', desc: 'Direkte støtte til forskning via konkurransebaserte utlysninger. Muliggjør grunnforskning, men kan ha lange prosesser.' },
                 { title: 'Internasjonale Samarbeidstilskudd (EU-type)', desc: 'Midler fra f.eks. Horisont Europa. Gir tilgang til større ressurspooler, men er svært konkurranseutsatt.' }
             ],
-            Pilotering: [
+            'Pilotering': [
                 { title: 'Målrettede Innovasjonsfond (Stimulab-type)', desc: 'Offentlige midler øremerket for eksperimentering, som fremmer risikotaking og praktiske løsninger.' },
                 { title: 'Offentlig-Privat Partnerskap (OPP)', desc: 'Samarbeidsavtaler som mobiliserer privat kapital og ekspertise, men krever komplekse kontrakter.' },
                 { title: 'Filantropi / Sivilsamfunns-tilskudd', desc: 'Fleksibel finansiering fra stiftelser for grasrotinitiativer, men ofte kortsiktig og uforutsigbar.' }
             ],
-            Oppskalering: [
+            'Oppskalering': [
                 { title: 'Offentlig-Privat Partnerskap (OPP)', desc: 'Samarbeidsavtaler som mobiliserer privat kapital og ekspertise, men krever komplekse kontrakter.' },
                 { title: 'Deltakende Budsjettering', desc: 'Lar borgere bestemme bruk av midler. Øker eierskap, men kan være tidkrevende.' },
                 { title: 'Folkefinansiering (Crowdfunding)', desc: 'Innsamling fra mange små bidragsytere. Demokratiserer finansiering, men er usikkert for store systemer.' }
