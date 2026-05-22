@@ -190,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fundingDetailsContainer = document.getElementById('funding-details');
     const fundingPhaseControls = document.getElementById('funding-phase-controls');
     const fundingPhases = ['FoU', 'Pilotering', 'Oppskalering'];
+    let focusedFundingPhaseIndex = 0;
 
     function displayFundingDetails(phase) {
         fundingDetailsContainer.innerHTML = '';
@@ -230,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let fundingChart = null;
     if (fundingCanvas && typeof Chart !== 'undefined') {
+        fundingCanvas.tabIndex = 0;
+        fundingCanvas.setAttribute('aria-label', 'Smultringdiagram over finansieringsfaser. Bruk venstre og høyre piltast for å velge fase, og Enter eller Space for å vise detaljer.');
+
         const fundingCtx = fundingCanvas.getContext('2d');
         fundingChart = new Chart(fundingCtx, {
             type: 'doughnut',
@@ -273,8 +277,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 const firstPoint = activePoints[0];
                 const label = fundingChart.data.labels[firstPoint.index];
                 displayFundingDetails(label);
+                focusedFundingPhaseIndex = firstPoint.index;
             }
         };
+
+        fundingCanvas.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                focusedFundingPhaseIndex = (focusedFundingPhaseIndex + 1) % fundingPhases.length;
+                displayFundingDetails(fundingPhases[focusedFundingPhaseIndex]);
+                return;
+            }
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                focusedFundingPhaseIndex = (focusedFundingPhaseIndex - 1 + fundingPhases.length) % fundingPhases.length;
+                displayFundingDetails(fundingPhases[focusedFundingPhaseIndex]);
+                return;
+            }
+            if (event.key === 'Home') {
+                event.preventDefault();
+                focusedFundingPhaseIndex = 0;
+                displayFundingDetails(fundingPhases[focusedFundingPhaseIndex]);
+                return;
+            }
+            if (event.key === 'End') {
+                event.preventDefault();
+                focusedFundingPhaseIndex = fundingPhases.length - 1;
+                displayFundingDetails(fundingPhases[focusedFundingPhaseIndex]);
+                return;
+            }
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                displayFundingDetails(fundingPhases[focusedFundingPhaseIndex]);
+            }
+        });
     }
     displayFundingDetails('FoU');
 

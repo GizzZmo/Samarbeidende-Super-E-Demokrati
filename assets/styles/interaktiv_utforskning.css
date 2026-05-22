@@ -48,7 +48,8 @@ body {
 
 .nav-link:focus-visible,
 .toc-link:focus-visible,
-button:focus-visible {
+button:focus-visible,
+canvas:focus-visible {
     outline: 2px solid #A37E63;
     outline-offset: 2px;
 }
